@@ -1,25 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useState, useRef} from 'react';
+import TodoL from './TodoL'
+import {v4 as uuidv4 } from 'uuid'; //different ids everytime a new item is added
+
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  const [todos, setTodos] = useState([])
+  const todoRef = useRef()
+
+  function eHandlerAdd(e){
+    //add the entered element (if any)
+    const name = todoRef.current.value
+    if(name == '')
+      return 
+    setTodos(prevTodos => {
+      return ([...prevTodos, {id: 1, name: name, complete: false}])
+    })
+    todoRef.current.value = null
+  }
+
+  function eHandlerDelete(e){
+    //delete all the items of the list
+    setTodos([])
+  }
+
+  return(
+  <>
+  <div class = 'l3ibat'><input ref = {todoRef} type = '/text' />
+  <button onClick = {eHandlerAdd} >Add a Task</button>
+  <button onClick = {eHandlerDelete}>Clear Todo</button></div>
+  <div class = 'list'><TodoL todos = {todos} /></div>
+  </>
+  )
 }
 
 export default App;
